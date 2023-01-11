@@ -14,3 +14,5 @@ public class Solution {
         }
     }
 }
+
+// 다른 풀이
