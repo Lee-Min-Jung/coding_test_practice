@@ -1,5 +1,5 @@
 import java.util.*;
-
+//
 class Solution {
     public int[] solution(int[] answers) {
         int[] first = {1,2,3,4,5}; // 5개씩 반복
