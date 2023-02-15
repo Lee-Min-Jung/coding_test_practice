@@ -13,19 +13,19 @@ class Solution {
         String numbers = "012345678910";
         String bonus = "SDT";
         String option = "*#";
-        boolean isCurrNum = false;
         Stack<Integer> resultStack = new Stack<Integer>();
         int answer = 0;
         
         for(int i = 0; i<dartResultArr.length; i++){
             String str = dartResultArr[i];
-            if(numbers.contains(str) && isCurrNum){
-                num = 10;
-            }else if(numbers.contains(str)){
+            if(numbers.contains(str)){
                 num = Integer.parseInt(str);
-                isCurrNum = true;
+                if(dartResultArr[i+1].equals("0")){
+                    num = 10;
+                    i++;
+                }
             }
-            
+            System.out.println(num);
             
             
             if(bonus.contains(str)){
@@ -42,7 +42,6 @@ class Solution {
                         break;
                 }
                 resultStack.push(result);
-                isCurrNum = false;
             }
             
             if(option.contains(str)){ 
@@ -73,7 +72,6 @@ class Solution {
                     }
                     
                 }
-                isCurrNum = false;
             }
            
         }
