@@ -9,63 +9,42 @@ class Solution {
         
         int winCount = 0;
         int zeroCount = 0;
-        int max = 0;
-        int min = 0;
         int[] answer = new int[2];
         
         for(int num : lottos){
             if(num == 0){
                 zeroCount += 1;
-            }else{
-                for(int winNum : win_nums){
-                    if(num == winNum){
-                        winCount += 1;
-                    }
+                continue;
+            }
+            
+            for(int winNum : win_nums){
+                if(num == winNum){
+                    winCount += 1;
                 }
             }
         }
-        switch(winCount + zeroCount){
-            case 6:
-                answer[0] = 1;
-                break;
-            case 5:
-                answer[0] = 2;
-                break;
-            case 4:
-                answer[0] = 3;
-                break;
-            case 3:
-                answer[0] = 4;
-                break;
-            case 2:
-                answer[0] = 5;
-                break;
-            default:
-                answer[0] = 6;
-                break;
-        }
-        switch(winCount){
-            case 6:
-                answer[1] = 1;
-                break;
-            case 5:
-                answer[1] = 2;
-                break;
-            case 4:
-                answer[1] = 3;
-                break;
-            case 3:
-                answer[1] = 4;
-                break;
-            case 2:
-                answer[1] = 5;
-                break;
-            default:
-                answer[1] = 6;
-                break;
-        }
+        
+        answer[0] = getGrade(winCount + zeroCount);
+        answer[1] = getGrade(winCount);
         
         
         return answer;
+    }
+    
+    public int getGrade(int num){
+        switch(num){
+            case 6:
+                return 1;
+            case 5:
+                return 2;
+            case 4:
+                return 3;
+            case 3:
+                return 4;
+            case 2:
+                return 5;
+            default:
+                return 6;
+        }
     }
 }
