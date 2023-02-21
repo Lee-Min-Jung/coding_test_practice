@@ -7,13 +7,8 @@ class Solution {
         
         for(int i = 0; i<s.length(); i++){
             String str = String.valueOf(s.charAt(i));
-            if(hm.get(str) != null){
-                answer[i] = i - hm.get(str);
-                hm.put(str, i);
-            }else{
-                answer[i] = -1;
-                hm.put(str, i);
-            }
+            answer[i] = i-hm.getOrDefault(str,i+1);
+            hm.put(str,i);
         }
         
         return answer;
