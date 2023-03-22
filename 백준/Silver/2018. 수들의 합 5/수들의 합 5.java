@@ -4,24 +4,25 @@ import java.io.*;
 public class Main{
     public static void main(String[] args) throws IOException{
         Scanner sc = new Scanner(System.in);
-        long N = sc.nextLong();
-        long num = 0;
-        long sum = 0;
-        long answer = 0;
-        
-        for(long i = 1; i<=N; i++){
-            num = i;
-            while(sum < N){
-                sum += num;
-                num++;
+        int N = sc.nextInt();
+        int count = 1;
+        int start_index = 1;
+        int end_index = 1;
+        int sum = 1;
+        while(end_index != N){
+            if(sum < N){
+                end_index++;
+                sum += end_index;
+            }else if(sum > N){
+                sum -= start_index;
+                start_index++;
+            }else{
+                end_index++;
+                sum += end_index;
+                count++;
             }
-            if(sum == N){
-                answer++;
-            }
-            sum = 0;
         }
-        
-        System.out.println(answer);
+        System.out.println(count);
         
     }
 }
