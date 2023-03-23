@@ -11,15 +11,23 @@ public class Main{
         for(int i = 0; i<count; i++){
             nums[i] = Integer.parseInt(st.nextToken());
         }
+        Arrays.sort(nums);
         int answer = 0;
+        int start = 0;
+        int end = count-1;
         
-        for(int i = 0; i<count; i++){
-            for(int j = i+1; j<count; j++){
-                if((nums[i] + nums[j]) == complete){
-                    answer++;
-                }
-            }
+        while(start < end){
+            if((nums[start] + nums[end]) < complete){
+                start++;
+            }else if((nums[start] + nums[end]) > complete){
+                end--;
+            }else{
+                answer++;
+                start++;
+                end--;
+            }    
         }
+        
         
         System.out.println(answer);
         
