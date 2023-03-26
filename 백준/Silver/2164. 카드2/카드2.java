@@ -4,23 +4,15 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) throws IOException{
         Scanner sc = new Scanner(System.in);
+        Queue<Integer> myQueue = new LinkedList<>();
         int N = sc.nextInt();
-        Queue<Integer> q = new LinkedList<>();
-
         for(int i = 1; i<=N; i++){
-            q.add(i);
+            myQueue.add(i);
         }
-
-        while(q.size() != 1){
-            q.remove();
-            if(q.size() == 1){
-                break;
-            }
-            int num = q.peek();
-            q.remove();
-            q.add(num);
+        while(myQueue.size() > 1){
+            myQueue.poll();
+            myQueue.add(myQueue.poll());
         }
-
-        System.out.println(q.peek());
+        System.out.println(myQueue.poll());
     }
 }
