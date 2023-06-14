@@ -24,8 +24,10 @@ class Solution {
             adj[start].remove(Integer.valueOf(end));
             adj[end].remove(Integer.valueOf(start));
             
-            int first = dfs(start, adj);
-            int second = dfs(end, adj);
+            boolean[] visited = new boolean[adj.length];
+            
+            int first = dfs(start, adj, visited);
+            int second = dfs(end, adj, visited);
             
             int diff = Math.abs(first - second);
             answer = Math.min(answer, diff);
@@ -37,21 +39,19 @@ class Solution {
         return answer;
     }
     
-    static int dfs(int nodeIndex, ArrayList<Integer>[] adj) {
-        boolean[] visited = new boolean[adj.length];
-        return dfsHelper(nodeIndex, adj, visited);
-    }
-    
-    static int dfsHelper(int nodeIndex, ArrayList<Integer>[] adj, boolean[] visited) {
+    static int dfs(int nodeIndex, ArrayList<Integer>[] adj, boolean[] visited) {
         visited[nodeIndex] = true;
         int count = 1;
         
-        for (int n : adj[nodeIndex]) {
-            if (!visited[n]) {
-                count += dfsHelper(n, adj, visited);
+        for(int n : adj[nodeIndex]){
+            if(!visited[n]){
+                count += dfs(n, adj, visited);
             }
         }
         
         return count;
+        
     }
+    
+    
 }
