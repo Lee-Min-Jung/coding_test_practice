@@ -1,71 +1,64 @@
+// survey : 성격유형 
+// choices: 각 성격유형에서 고른 답변
+// 1: 3점, 2: 2점, 3: 1점 - 왼쪽 유형
+// 4: 0점
+// 5: 1점, 6: 2점, 7: 3점 - 오른쪽 유형
+
+// 총 성격 유형별로 map을 만들어 점수를 담을 것을 초기화한다
+
+// survey와 choices를 동시에 돈다
+    // choices에서 숫자를 꺼낸 후 해당 숫자에 맞는 유형과 점수를 구한다
+    // 해당 유형 map에 점수를 할당한다
+
+// 다 돌고 난 이후 map을 돌면서 rt 중 큰 값, cf 중 큰 값, jm중 큰 값, an중 큰 값을 찾음
 import java.util.*;
 
 class Solution {
     public String solution(String[] survey, int[] choices) {
-        // survey : 질문마다 판단하는 지표
-            // survey 원소: "RT", "TR", "FC", "CF", "MJ", "JM", "AN", "NA"
-            // survey의 첫 번째 캐릭터는 i+1번 질문의 비동의
-            // survey의 두 번째 캐릭터는 동의
-        // choices : 검사자가 선택한 선택지
-            //1: 매우 비동의....7:매우동의
-        
-        // survey와 choices를 돌면서 하나씩 확인
-            // choices의 값을 보고 1~3 이면 survey 원소 왼쪽에 점수 할당
-            // 5~7 이면 survey 원소 오른쪽에 점수 할당
-                // 1과 7은 3점, 2와 6은 2점, 3과 5는 1점, 4는 0점
-       
-        HashMap<String, Integer> typeScore = new HashMap<String, Integer>();
-        String[] typeArr = {"RT", "CF", "JM", "AN"};
-        StringBuilder answer = new StringBuilder();
-        
-        for(String type : typeArr){
-            typeScore.put(type.substring(0,1), 0);
-            typeScore.put(type.substring(1,2), 0);
+        // 총 성격 유형 map 생성
+        String[] typeList = {"R", "T", "C", "F", "J", "M", "A", "N"};
+        HashMap<String, Integer> typeMap = new HashMap<String, Integer>();
+        for(int i = 0; i<typeList.length; i++){
+            typeMap.put(typeList[i], 0);
         }
         
+        // 선택항목 별 점수 map 생성
+        HashMap<Integer, Integer> scoreMap = new HashMap<Integer, Integer>(); 
+        scoreMap.put(1,3);
+        scoreMap.put(2,2);
+        scoreMap.put(3,1);
+        scoreMap.put(4,0);
+        scoreMap.put(5,1);
+        scoreMap.put(6,2);
+        scoreMap.put(7,3);
         
+        // survey와 choices돌기
         for(int i = 0; i<survey.length; i++){
-            String left = survey[i].substring(0,1);
-            String right = survey[i].substring(1,2);
-            switch(choices[i]){
-                case 1:
-                    typeScore.put(left, typeScore.get(left)+3);
-                    break;
-                case 2:
-                    typeScore.put(left, typeScore.get(left)+2);
-                    break;
-                case 3:
-                    typeScore.put(left, typeScore.get(left)+1);
-                    break;
-                case 5:
-                    typeScore.put(right, typeScore.get(right)+1);
-                    break;
-                case 6:
-                    typeScore.put(right, typeScore.get(right)+2);
-                    break;
-                case 7:
-                    typeScore.put(right, typeScore.get(right)+3);
-                    break;
-                default:
-                    break;
-            }
+            String leftType = survey[i].split("")[0];
+            String rightType = survey[i].split("")[1];
+            int score = scoreMap.get(choices[i]);
             
+            if(choices[i]<=3){
+                typeMap.put(leftType, typeMap.getOrDefault(leftType, 0)+score);
+            }else if(choices[i]>=4){
+                typeMap.put(rightType, typeMap.getOrDefault(rightType, 0)+score);
+            }
         }
         
-        for(String type : typeArr){
-            String left = type.substring(0,1);
-            String right = type.substring(1,2);
-            if(typeScore.get(left) >= typeScore.get(right)){
-                answer.append(left);
+        // 완성된 typeMap으로부터 정답 구하기
+        StringBuilder sb = new StringBuilder();
+        
+        for(int i = 0; i<typeList.length; i+=2){
+            if(typeMap.get(typeList[i]) > typeMap.get(typeList[i+1])){
+                sb.append(typeList[i]);
+            }else if(typeMap.get(typeList[i]) == typeMap.get(typeList[i+1])){
+                sb.append(typeList[i]);
             }else{
-                answer.append(right);
+                sb.append(typeList[i+1]);
             }
         }
         
         
-        
-        return answer.toString();
+        return sb.toString();
     }
-    
-    
 }
