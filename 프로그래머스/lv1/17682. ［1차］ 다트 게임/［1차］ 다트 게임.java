@@ -1,86 +1,80 @@
-import java.util.*;
+// S: 1제곱
+// D: 2제곱
+// T: 3제곱
+// *: 이전 점수2배, 이번 점수 2배, 첫번째에 나오면 이번 점수만 2배
+// #: 이번 점수 마이너스
+// s d t 는 무조건 존재, * # 은 있어도 되고 없어도 되고
 
+// dartResult를 쪼개서 하나씩 살핀다
+    // 숫자면 식에 숫자 입력
+    // SDT면 숫자에 계산
+    // 위 계산 후 스택에 저장
+    // * # 면 스택에 있는 거 1개 빼서 연산, 그리고 또 하나 빼서 연산, 그리고 나중 거 먼저 넣고 그 다음 거 넣기
+import java.util.*;
 class Solution {
     public int solution(String dartResult) {
-        // dartResult을 문자열 배열로 만들어서 하나씩 살펴보기
-            // 숫자인지, 보너스인지(영문숫자), 옵션(특수문자)인지 확인
-                // 숫자면 해당 숫자를 기억해놔야 함
-                // 보너스이면 이전에 기억했던 숫자를 계산하고 계산 결과를 기억해야 함
-                // 옵션이면 이전에 기억했던 결과를 계산하고 계산 결과를 기억해야 함
-  
         String[] dartResultArr = dartResult.split("");
-        int num = 0;
         String numbers = "012345678910";
-        String bonus = "SDT";
-        String option = "*#";
-        Stack<Integer> resultStack = new Stack<Integer>();
-        int answer = 0;
+        // String SDT = "SDT";
+        // String option = "*#";
+        
+        // 돌기
+        int result = 0;
+        Stack<Integer> st = new Stack<Integer>();
         
         for(int i = 0; i<dartResultArr.length; i++){
-            String str = dartResultArr[i];
-            if(numbers.contains(str)){
-                num = Integer.parseInt(str);
-                if(dartResultArr[i+1].equals("0")){
-                    num = 10;
-                    i++;
-                }
-            }
-            System.out.println(num);
-            
-            
-            if(bonus.contains(str)){
-                int result = 0;
-                switch(str){
-                    case "S":
-                        result = (int)Math.pow(num, 1);
-                        break;
-                    case "D":
-                        result = (int)Math.pow(num, 2);
-                        break;
-                    case "T":
-                        result = (int)Math.pow(num, 3);
-                        break;
-                }
-                resultStack.push(result);
+            String target = dartResultArr[i];
+            // 숫자
+            if(numbers.contains(target) && dartResultArr[i+1].equals("0")){
+                result = 10;
+                i++;
+            }else if(numbers.contains(target)){
+                result = Integer.parseInt(target);
             }
             
-            if(option.contains(str)){ 
-                // pop 할 때 첫 번째는 1개 pop 후 바로 다시 넣기
-                // 두 번째와 세 번째는 2개 pop 후 나중에 pop한 걸 먼저 넣고, 나머지를 뒤에 넣기
-                if(resultStack.size() == 1){
-                    switch(str){
-                        case "*":
-                            resultStack.push(resultStack.pop()*2);
-                            break;
-                        case "#":
-                            resultStack.push(resultStack.pop()*(-1));
-                            break;
-                    }
+            // SDT
+            if(target.equals("S")){
+                result = (int)Math.pow(result, 1);
+                st.push(result);
+            }else if(target.equals("D")){
+                result = (int)Math.pow(result, 2);
+                st.push(result);
+            }else if(target.equals("T")){
+                result = (int)Math.pow(result, 3);
+                st.push(result);
+            }
+            
+            // * #
+            if(target.equals("*")){
+                if(st.size() == 1){
+                    int num = st.pop();
+                    num *= 2;
+                    st.push(num);
                 }else{
-                    switch(str){
-                        case "*":
-                            int first = 0;
-                            int second = 0;
-                            first = resultStack.pop() * 2;
-                            second = resultStack.pop() * 2;
-                            resultStack.push(second);
-                            resultStack.push(first);   
-                            break;
-                        case "#":
-                            resultStack.push(resultStack.pop()*(-1));
-                            break;
-                    }
-                    
+                    int num1 = st.pop();
+                    int num2 = st.pop();
+                    num1 *= 2;
+                    num2 *= 2;
+                    st.push(num2);
+                    st.push(num1);
                 }
+                
+            }else if(target.equals("#")){
+                int num = st.pop();
+                num *= (-1);
+                st.push(num);
             }
-           
         }
         
-        //스택에 있는 거 다 더하기
-        while(resultStack.size() != 0){
-            answer += resultStack.pop();
+        // 스택에 있는 거 몽땅 더하기
+        int answer = 0;
+        while(!st.isEmpty()){
+            answer += st.pop();
         }
+        
         
         return answer;
+        
+      
     }
 }
