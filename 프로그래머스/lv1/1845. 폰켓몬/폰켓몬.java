@@ -1,26 +1,40 @@
+//  N마리 폰켓몬의 종류 번호가 담긴 배열 nums가 매개변수로 주어질 때, N/2마리의 폰켓몬을 선택하는 방법 중, 가장 많은 종류의 폰켓몬을 선택하는 방법을 찾아, 그때의 폰켓몬 종류 번호의 개수를 return 하도록 
+
+// nums를 돈다
+    // map에 번호와 개수를 저장한다
+// count 변수를 만들어 골라야 하는 개수를 센다
+// map을 count가 특정 수가 될 때까지 돈다
+    // key를 set에 집어 넣는다
+
+// 위 과정을 마친 후 set의 개수를 답으로 리턴
+
 import java.util.*;
 
 class Solution {
     public int solution(int[] nums) {
-        // nums를 set으로 변경해서 중복 없애기
-        // 고를 수 있는 최대 수와 set에 있는 개수 비교
-            // 만약 최대 수가 set 개수보다 많으면 답은 set 개수
-            // 만약 최대 수와 set 개수가 같으면 같은 그 값 리턴
-            // 만약 최대 수가 set 개수보다 적으면 답은 최대 수
-        HashSet<Integer> hs = new HashSet<Integer>();
-        int max_select = nums.length / 2;
-        int answer = 0;
+        HashMap<Integer, Integer> ponMap = new HashMap<Integer, Integer>();
         
-        for(int i = 0; i<nums.length; i++){
-            hs.add(nums[i]);
+        // num 돌기
+        for(int num : nums){
+            ponMap.put(num, ponMap.getOrDefault(num, 0)+1);
         }
         
-        if(max_select >= hs.size()){
-            answer = hs.size();
-        }else{
-            answer = max_select;
+        int count = 0;
+        
+        // map 돌기
+        HashSet<Integer> ponSet = new HashSet<Integer>();
+        for(int key : ponMap.keySet()){
+            if(ponMap.get(key) > 0){
+                ponSet.add(key);   
+            }
+            ponMap.put(key, ponMap.get(key)-1);
+            count++;
+            if(count == nums.length/2){
+                break;
+            }
         }
         
-        return answer;
+        // 리턴
+        return ponSet.size();
     }
 }
