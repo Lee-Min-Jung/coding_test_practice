@@ -8,14 +8,15 @@ import java.util.*;
 class Solution {
     public boolean solution(String[] phone_book) {
         // 정렬
-        Arrays.sort(phone_book, new Comparator<String>(){
-            public int compare(String str1, String str2){
-                if(str1.length() == str2.length()){
-                    return 0;
-                }
-                return str1.length() - str2.length();
-            }
-        });
+        Arrays.sort(phone_book);
+        // Arrays.sort(phone_book, new Comparator<String>(){
+        //     public int compare(String str1, String str2){
+        //         if(str1.length() == str2.length()){
+        //             return 0;
+        //         }
+        //         return str1.length() - str2.length();
+        //     }
+        // });
         
     
         HashMap<String, Integer> hm = new HashMap<String, Integer>();
