@@ -1,26 +1,32 @@
+// 스택 만들기
+// arr 돌면서 스택 활용
+    // 스택 비어있으면 넣기
+    // 비어있지 않으면 하나 빼서 넣으려는 것과 비교 후 같으면 안 넣고 안 같으면 넣기
+// 스택에서 다 빼내면서 배열 만들기(반대로 돌아야 함)
+
 import java.util.*;
 
 public class Solution {
     public int[] solution(int []arr) {
-        // 스택 만들어서 arr에 있는 거 집어 넣기
-        // 집어 넣을 때 그 전에 거 빼서 집어 넣는 거랑 같으면 안 넣고 다르면 넣기
-        // 다 넣은 후에 빼서 배열에 넣기
+        Stack<Integer> st = new Stack<Integer>();
         
-        Stack<Integer> s = new Stack<Integer>();
+        // arr 돌기
         for(int num : arr){
-            if(s.isEmpty()){
-                s.push(num);
-            }else if(s.peek() != num){
-                s.push(num);
+            if(st.isEmpty()){
+                st.push(num);
+            }else if(st.peek() != num){
+                st.push(num);
             }
         }
         
-        int[] answer = new int[s.size()];
-        
+        // 정답
+        int[] answer = new int[st.size()];
         for(int i = answer.length-1; i>=0; i--){
-            answer[i] = s.pop();
+            answer[i] = st.pop();
         }
         
+        
         return answer;
+        
     }
 }
