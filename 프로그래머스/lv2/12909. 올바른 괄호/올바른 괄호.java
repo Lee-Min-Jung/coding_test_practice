@@ -10,10 +10,11 @@ import java.util.*;
 class Solution {
     boolean solution(String s) {
         Stack<Character> st = new Stack<Character>();
+        char[] charArr = s.toCharArray();
         
         // s 돌기
-        for(int i = 0; i<s.length(); i++){
-            char ch = s.charAt(i);
+        for(Character ch : charArr){
+        
             // 여는 괄호면 스택에 넣기
             if(ch == '('){
                 st.push(ch);
