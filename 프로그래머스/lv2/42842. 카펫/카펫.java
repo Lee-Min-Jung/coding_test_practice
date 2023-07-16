@@ -1,29 +1,54 @@
-// 노랑 개수가 홀수이면 노랑은 일자로 쭉
-    // 가로는 노랑개수 + 2, 세로는 3
-// 노랑 개수가 짝수이면 갈색 개수따라 노랑 모양이 달라짐
-    // 가로: 노랑 가로 + 2, 세로: 노랑 세로 + 2
-    // 갈색 개수는 (노랑 가로 + 2)*2 + (노랑 세로*2)
-    // 노랑 경우의 수: 1 24, 2 12, 3 8, 4 6
-    // 노랑의 각 경우의 수에 따른 갈색 개수 구해서 맞는지 비교
+// 조건
+    // 가로는 세로와 같거나 세로보다 더 길다
+// 생각
+    // yellow의 약수를 구해서 약수 짝끼리 yellow 모양이라고 가정하고 가로, 세로, brwon을 구해본다
+    // yellow의 약수를 모두 구해서 약수 짝끼리 살펴 봐야 하니 완전탐색이 아닐까
+
+// yellow보다 작은 수를 돌면서 약수를 구한다
+    // 약수가 1이다
+        // 가로 = yellow + 2, 세로 = 3
+        // 해당 가로세로의 넓이에서 yellow를 뺀 후 brown을 구한다
+        // 구한 brown이 주어진 brown과 같으면
+            // 더 긴 걸 가로로 하고 작은 걸 세로로 한 후 종료한다
+    // 약수가 1이 아니다
+        // 첫 번째 약수 + 2, 두 번째 약수 + 2 중 더 긴 것이 가로, 짧은 것이 세로
+        // 해당 가로세로 넓이에서 yellow를 뺀 후 brown을 구한다
+        // 구한 brown이 주어진 brown과 같으면
+            // 더 긴 걸 가로로 하고 작은 걸 세로로 한 후 종료한다
+
+
 
 class Solution {
     public int[] solution(int brown, int yellow) {
+        // 정답 배열
         int[] answer = new int[2];
         
-        // 노란 타일 모양 찾아서 갈색 개수랑 맞는지 확인
+        // yellow 돌면서 약수 구하기
         for(int i = 1; i<=yellow; i++){
-            if(yellow % i == 0){
-                int width = Math.max(i, yellow / i);
-                int height = Math.min(i, yellow / i);
-                if((width + 2)*(height + 2) == (brown+yellow)){
-                    answer[0] = width+2;
-                    answer[1] = height+2;
-                    break;
+            if(yellow % i == 0){ // i가 약수다
+                if(i == 1){ // 약수가 1이다
+                    int width = yellow + 2;
+                    int height = 3;
+                    int tempBrown = width*height - yellow;
+                    if(tempBrown == brown){
+                        answer[0] = width;
+                        answer[1] = height;
+                        break;
+                    }
+                }else{ // 약수가 1이 아니다
+                    int width = yellow / i + 2;
+                    int height = i+2;
+                    int tempBrown = width*height - yellow;
+                    if(tempBrown == brown){
+                        answer[0] = width;
+                        answer[1] = height;
+                        break;
+                    }
                 }
+            }else{ // i가 약수가 아니다
+                continue;
             }
         }
-        
-        
         
         return answer;
     }
