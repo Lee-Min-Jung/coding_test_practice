@@ -10,14 +10,12 @@
             // 현재 피로도가 최소 필요도보다 작다
                 // 중단
 class Solution {
-    static int curK;
     static int[][] dungeonsArr;
     static boolean[] visited;
     static int answer;
     
     public int solution(int k, int[][] dungeons) {
         // 초기화
-        curK = k;
         dungeonsArr = dungeons;
         visited = new boolean[dungeons.length];
         answer = 0;
