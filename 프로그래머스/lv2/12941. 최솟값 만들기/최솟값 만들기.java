@@ -13,16 +13,12 @@ class Solution
     {
         // 정렬
         Arrays.sort(A);
-        Integer[] B_Integer = new Integer[B.length];
-        for(int i = 0; i<B.length; i++){
-            B_Integer[i] = Integer.valueOf(B[i]);
-        }
-        Arrays.sort(B_Integer, Collections.reverseOrder());
+        Arrays.sort(B);
         
         // 배열 길이만큼 돌기
         int answer = 0;
         for(int i = 0; i<A.length; i++){
-            answer += A[i] * B_Integer[i];
+            answer += A[i] * B[B.length-i-1];
         }
         
         return answer;
