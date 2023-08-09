@@ -1,59 +1,34 @@
-// clothes를 돌면서 map에 저장
-    // 종류: 리스트에 옷 이름 추가
-// 개수 구하기
-    // 종류별 1개씩 입는다 했을 때 각 종류의 개수 ---- 1
-    // 종류끼리 겹쳐 입는다 했을 때 각 종류 개수의 곱 --- 2
-        // 각 종류에서 1개씩 고르는 경우의 수끼리 곱하면 됨
-    // 1과 2의 합
+// 생각
+    // 분류별 개수는 map으로 저장
+// 구현
+    // clothes 돌면서 분류별로 개수 세서 map에 저장
+    // 만약 map에 분류가 1개밖에 없다
+        // 해당 분류의 개수를 리턴
+    // map에 분류가 2개 이상
+        // 각 분류의 개수 합 + 각 분류끼리의 곱 리턴
 
 import java.util.*;
 
 class Solution {
     public int solution(String[][] clothes) {
-        // map에 저장
-        HashMap<String, ArrayList<String>> clothesMap = new HashMap<String, ArrayList<String>>(); 
+        HashMap<String, Integer> hm = new HashMap<String, Integer>();
+        
+        // 분류별 개수 저장
         for(int i = 0; i<clothes.length; i++){
-            String name = clothes[i][0];
             String type = clothes[i][1];
-            if(clothesMap.getOrDefault(type, null) == null){
-                ArrayList<String> clothesList = new ArrayList<String>();
-                clothesList.add(name);
-                clothesMap.put(type, clothesList);
-            }else{
-                ArrayList<String> clothesList = clothesMap.get(type);
-                clothesList.add(name);
-                clothesMap.put(type, clothesList);
-                
-            }
+            hm.put(type, hm.getOrDefault(type, 0)+1);
         }
-        // 개수 구하기
-        int answer = 0;
-        for(String key : clothesMap.keySet()){
-            if(answer != 0){
-                answer = answer + answer * clothesMap.get(key).size();
-            }
-            answer += clothesMap.get(key).size();
+        
+        // 분류별 돌면서 개수 계산
+        int answer = 1;
+        
+        for(String key : hm.keySet()){
+            answer *= hm.get(key)+1;
             
         }
         
+        return answer-1;
         
-        return answer;
+        
     }
 }
-
-
-
-// Iterator it = mClothers.keySet().iterator();
-//         while (it.hasNext()) {
-//             String sKey = (String) it.next();
-//             int arrayClotherSize = ((ArrayList<String>) mClothers.get(sKey)).size();
-//             arrayClotherSize++; //현재 옷종류 미착용상태 경우의 수 한개 추가
-//             if(answer == 0) {
-//                 answer = arrayClotherSize;
-//             } else {
-//                 answer *= arrayClotherSize;
-//             }
-
-//         }
-
-//         answer--; //모든 복장 미착용인 경우 한개 제외
