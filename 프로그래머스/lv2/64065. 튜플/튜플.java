@@ -22,9 +22,6 @@ class Solution {
         // 원소 개수대로 정렬
         Arrays.sort(sArr, new Comparator<String>(){
             public int compare(String str1, String str2){
-                if(str1.length() == str2.length()){
-                    return 0;
-                }
                 return str1.length() - str2.length();
             }
         });
