@@ -1,55 +1,52 @@
-// progresses 별로 며칠 후에 끝나는 지 구하기
-// 위에서 구한 값을 바탕으로 돌기
-    // curr <= prev : 이전 것과 같이 배포 가능하니 이전 count + 1
-    // curr > prev : 기존 count를 push 
-                    // count를 1로 재설정, prev도 재설정
-// 스택 값 거꾸로 뺀 것이 답
-
-
+// 생각
+    // 각 걸리는 일수를 구한 후 
+    // 걸리는 일수 돌면서 배포일 구하기
+// 구현
+    // progresses와 sppeeds를 돌면서 각 기능별 걸리는 일수를 구한다
+        // 100에서 progresses 값을 뺀 후 speeds 값으로 나눈 나머지가 0이면 몫이 값
+        // 만약 나머지가 0이 아니면 몫에 1 더한 것이 값
+    // 걸리는 일수를 돈다
+        // 지난날과 걸리는 일수를 비교했는데 걸리는 일수가 더 크다
+            // 새로운 배포 개수를 1 증가하고 지난날을 걸리는 일수로 바꿈
+        // 지난날과 걸리는 일수를 비교했는데 지난날이 더 크다
+            // 마지막 배포 개수를 1 증가한다
 import java.util.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        int N = progresses.length;
-        int[] times = new int[N];
-
-        // progresses 별로 며칠 후에 끝나는 지 구하기
-        for (int i = 0; i < N; i++) {
-            int time = 0;
-            if ((100 - progresses[i]) % speeds[i] == 0) {
-                time = (100 - progresses[i]) / speeds[i];
-            } else {
-                time = (100 - progresses[i]) / speeds[i] + 1;
-            }
-            times[i] = time;
-        }
-
-        // 배포일에 배포될 기능의 수 계산
-        Stack<Integer> st = new Stack<>();
+        // 기능별 걸리는 일수
+        int[] days = new int[progresses.length];
         
-        int count = 1;
-        int prev = times[0];
-        
-        for(int i = 1; i<N; i++){
-            int curr = times[i];
-            
-            if(curr <= prev){
-                count++;
+        for(int i = 0; i<progresses.length; i++){
+            if((100-progresses[i]) % speeds[i] == 0){
+                days[i] = (100-progresses[i]) / speeds[i];
             }else{
-                st.push(count);
-                count = 1;
-                prev = times[i];
+                days[i] = (100-progresses[i]) / speeds[i] + 1;
             }
         }
-        st.push(count);
         
+        // 걸리는 일수 돌기
+        int pastDays = 0;
+        ArrayList<Integer> answerList = new ArrayList<Integer>();
         
-        // 결과 배열 생성
-        int[] answer = new int[st.size()];
-        for (int i = st.size() - 1; i >= 0; i--) {
-            answer[i] = st.pop();
+        for(int i = 0; i<days.length; i++){
+            if(days[i] > pastDays){
+                answerList.add(1);
+                pastDays = days[i];
+            }else{
+                int temp = answerList.get(answerList.size()-1) + 1;
+                answerList.remove(answerList.size()-1);
+                answerList.add(temp);
+            }
         }
-
+        
+        // 배열로 바꾸기
+        int[] answer = new int[answerList.size()];
+        for(int i = 0; i<answer.length; i++){
+            answer[i] = answerList.get(i);
+        }
+        
         return answer;
+        
     }
 }
