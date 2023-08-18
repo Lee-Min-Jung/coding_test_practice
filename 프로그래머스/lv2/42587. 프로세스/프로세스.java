@@ -1,40 +1,47 @@
-// 우선순위큐를 만든다. 숫자 큰 수가 우선순위 높도록. 
-// 우선순위큐를 돈다 
-    // 우선순위큐에 있는 값과 priorities의 index 값이 같지 않다
-        // priorities의 다음 값으로 넘어간다
-    // 우선순위큐에 있는 값과 priorities의 index 값이 같다
-        // index 값과 location 값이 같다
-            // answer에 1 더한 후 리턴
-        // index 값과 location 값이 같지 않다
-            // pq의 값을 하나 빼고 answer을 1 증가
+// 생각
+    // 대놓고 큐를 쓰라고 알려 줬음. 근데 우선순위 큐인가
+// 구현
+    // 우선순위 큐를 만들어서 priorities를 우선순위 큐에 넣는다
+    // 우선순위 큐를 돈다
+        // priorities를 돈다
+            // 우선순위 큐의 값과 priorities의 값이 같다
+                // priorities를 도는 index와 location 값이 같다
+                    // answer에 1 추가하고 답으로 return
+                // priorities를 도는 index와 location 값이 다르다
+                    // 큐에서 값 하나 빼고 answer에 1 추가하고 다음 priorities로 넘어간다
+            // 우선순위 큐의 값과 priorities의 값이 다르다
+                // 다음 priorities로 넘어간다
+
 import java.util.*;
 
 class Solution {
     public int solution(int[] priorities, int location) {
-        // 우선순위큐 선언
+        
+        // 우선순위 큐 만들어서 넣기
         PriorityQueue<Integer> pq = new PriorityQueue<Integer>(Collections.reverseOrder());
         
-        // 우선순위큐에 넣기
         for(int i = 0; i<priorities.length; i++){
             pq.add(priorities[i]);
         }
         
-        // 우선순위큐에서 빼면서 답 구하기
+        // 우선순위큐와 priorities 돌면서 정답 찾기
         int answer = 0;
         
         while(!pq.isEmpty()){
             for(int i = 0; i<priorities.length; i++){
                 if(pq.peek() == priorities[i]){
                     if(i == location){
-                        answer += 1;
+                        answer++;
                         return answer;
+                    }else{
+                        pq.poll();
+                        answer++;
                     }
-                    pq.poll();
-                    answer+= 1;
                 }
             }
         }
         
-        return -1;
+        return 1;
+        
     }
 }
