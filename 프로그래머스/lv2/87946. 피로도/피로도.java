@@ -1,52 +1,49 @@
 // 생각
-    // 던전들을 각기 다른 모든 순서로 돌면서 탐험 가능한 최대 던전 개수를 구해야 한다
-    // 예를 들어 3개라면 123 132 213 231 312 321 ... 
-    // 각 던전 for문 돌면서 재귀로 완전탐색하면 되지 않을까?
+    // 던전을 돌 수 있는 모든 경우의 수를 돌면서 총 몇 개를 방문할 수 있는지 세어야 함
+    // 완전탐색, 재귀로 구현 가능
 // 구현
-    // for문으로 던전을 돈다
-        // 각 던전을 시작으로 해서 순차적으로 다른 던전 돌도록 탐색을 해본다
-            // 현재 피로도가 최소 필요도보다 크거나 같다
-                // 현재 피로도 = 현재 피로도 - 소모 필요도
-            // 현재 피로도가 최소 필요도보다 작다
-                // 중단
+    // 방문배열 초기화
+    // 재귀 함수에 매개변수로 주어야 할 것들
+        // 던전 배열, 현재 피로도, 현재까지 방문한 개수 
+    // 재귀 함수
+        // 던전 돌기
+            // 현재 던전 방문 안 함 && 현재 피로도 >= 현재 방문한 던전의 최소 필요 피로도
+                // 현재 피로도 -= 사용 피로도
+                // 방문 표시
+                // count 증가
+                // 재귀함수 다시 방문
+                // 방문 취소
+            // 현재 던전 방문 || 현재 피로도 < 현재 방문한 던전의 최소 필요 피로도    
+                // 그냥 패스
+        // for문 돌면서 얻은 count와 현재 answer중 최댓값으로 answer 갱신
+
 class Solution {
-    static int[][] dungeonsArr;
     static boolean[] visited;
     static int answer;
     
     public int solution(int k, int[][] dungeons) {
         // 초기화
-        dungeonsArr = dungeons;
         visited = new boolean[dungeons.length];
         answer = 0;
         
-        // 던전 돌기
-        for(int i = 0; i<dungeons.length; i++){
-            int count = 0;
-            recur(i, dungeons[i][0], dungeons[i][1], count, k);
-        }
+        // 재귀함수에 보내기
+        recur(k, dungeons, 0);
         
-
-        // 정답 출력
+        // 정답
         return answer;
     }
     
-    // 재귀로 완전탐색하는 함수
-    public void recur(int index, int min, int use, int count, int k){
-        if(k >= min){
-            k -= use;
-            count += 1;
-            visited[index] = true;
-            for(int i = 0; i<dungeonsArr.length; i++){
-                if(!visited[i]){
-                    recur(i, dungeonsArr[i][0], dungeonsArr[i][1], count, k);
-                }
+    public void recur(int nowK, int[][] dungeons, int count){
+        for(int i = 0; i<dungeons.length; i++){
+            if(!visited[i] && nowK >= dungeons[i][0]){
+                visited[i] = true;
+                recur(nowK-dungeons[i][1], dungeons, count+1);
+                visited[i] = false;
             }
         }
-        visited[index] = false;
         answer = Math.max(answer, count);
-        
-        
-      
     }
 }
+
+
+
