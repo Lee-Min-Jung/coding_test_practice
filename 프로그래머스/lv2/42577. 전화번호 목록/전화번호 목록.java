@@ -1,22 +1,32 @@
 // 생각
-    // phone_book을 사전순으로 정렬하면 다음 것이 본인으로 시작하는지만 for문 한 번에 확인하면 된다
+    // map
 // 구현
-    // phone_book 사전 정렬(그냥 정렬하면 됨)
-    // phone_book 돌기
-        // 다음 것이 본인 것으로 시작하면 false 리턴
+    // phone_book을 돈다
+        // map에 각 key를 저장한다
+    // phone_book을 돈다
+        // phone_book의 각 원소 글자를 돈다
+            // 각 원소 글자의 처음부터 살피면서 해당 부분이 map에 key로 존재한다
+                // false 리턴
     // true 리턴
 
 import java.util.*;
 
 class Solution {
     public boolean solution(String[] phone_book) {
-        // 사전순 정렬
-        Arrays.sort(phone_book);
         
-        // for문 돌기
-        for(int i = 0; i<phone_book.length-1; i++){
-            if(phone_book[i+1].startsWith(phone_book[i])){
-                return false;
+        // map 채우기
+        HashMap<String, Integer> hm = new HashMap<String, Integer>();
+        
+        for(String str : phone_book){
+            hm.put(str, 1);
+        }
+        
+        // 접두어 확인
+        for(String str : phone_book){
+            for(int i = 1; i<str.length(); i++){
+                if(hm.containsKey(str.substring(0, i))){
+                    return false;
+                }
             }
         }
         
