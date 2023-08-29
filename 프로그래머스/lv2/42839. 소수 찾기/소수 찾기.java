@@ -1,48 +1,47 @@
 import java.util.*;
 
-
 class Solution {
-    static boolean[] visited = new boolean[7];
-    static HashSet<Integer> numSet = new HashSet<Integer>();
-
-
+    static boolean[] visited;
+    static HashSet<Integer> hs = new HashSet<Integer>();
     
     public int solution(String numbers) {
-        String[] arr = numbers.split("");
-        recur("", 0, arr);
-
         
-        // 정답 리턴
-        return numSet.size();
+        // 변수 초기화
+        String[] arr = numbers.split("");
+        visited = new boolean[arr.length];
+        
+        // 재귀 시작
+        recur(0, arr, "");
+        
+        return hs.size();
     }
     
-    // 완전탐색 할 함수
-    public void recur(String str, int index, String[] arr){
+    public void recur(int index, String[] arr, String str){
         for(int i = 0; i<arr.length; i++){
             if(!visited[i]){
                 visited[i] = true;
-                String targetStr = str+arr[i];
+                String targetStr = str + arr[i];
                 int targetInt = Integer.parseInt(targetStr);
-                if(checkSosu(targetInt)){
-                    numSet.add(targetInt);
+                if(isSosu(targetInt)){
+                    hs.add(targetInt);
                 }
-                recur(targetStr, index+1, arr);
+                recur(index+1, arr, targetStr);
                 visited[i] = false;
             }
         }
-        
     }
     
-    // 소수 확인 함수
-    public boolean checkSosu(int num){
-        if(num == 0 || num == 1){
+    public boolean isSosu(int num){
+        if(num == 1 || num == 0){
             return false;
         }
-        for(int i = 2; i<num; i++){
+        
+        for(int i = 2; i<=Math.sqrt(num); i++){
             if(num % i == 0){
                 return false;
             }
         }
+        
         return true;
     }
 }
