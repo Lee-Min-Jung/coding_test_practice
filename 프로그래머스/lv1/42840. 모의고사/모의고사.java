@@ -1,70 +1,52 @@
-// 1번 수포자: 1 2 3 4 5 반복, 5개
-// 2번 수포자: 2 1 2 3 2 4 2 5 반복, 8개
-// 3번 수포자: 3 3 1 1 2 2 4 4 5 5 반복, 10개
-// answers의 개수가 곧 문제의 개수
-
-// answers를 돌면서 각 수포자 배열과 비교해서 정답 개수 구하기
-    // 각 수포자 배열은 계속 반복되니 비교할 때 나머지 연산 이용
-    // answers의 인덱스 % 각 수포자 배열 길이
+// 생각
+    // 1번 규칙: 1 2 3 4 5
+    // 2 번 규칙: 2 1 2 3 2 4 2 5
+    // 3번 규칙: 3 3 1 1 2 2 4 4 5 5 
+    // answers 돌면서 인덱스가지고 각 번호의 사람의 정답과 비교해서 답인지 확인
+// 구현
+    // 각 번호의 규칙을 배열에 저장
+    // answers를 돌기
+        // answers[index] == 1번정답배열[index%1번정답배열 길이]
+            // 정답 카운트 증가
 import java.util.*;
-
 class Solution {
     public int[] solution(int[] answers) {
-        // 각 수포자 배열
-        int[] first = {1,2,3,4,5};
-        int[] second = {2,1,2,3,2,4,2,5};
-        int[] third = {3,3,1,1,2,2,4,4,5,5};
-      
-        int[] score = new int[3];
+        // 규칙 저장
+        int[] one = {1, 2, 3, 4, 5};
+        int[] two = {2, 1, 2, 3, 2, 4, 2, 5};
+        int[] three = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
+        
+        // answers 돌기
+        int[] rightCount = new int[3];
         
         for(int i = 0; i<answers.length; i++){
-            if(answers[i] == first[i%first.length]){
-                score[0]++;
+            if(answers[i] == one[i%one.length]){
+                rightCount[0]++;
             }
-            if(answers[i] == second[i%second.length]){
-                score[1]++;
+            if(answers[i] == two[i%two.length]){
+                rightCount[1]++;
             }
-            if(answers[i] == third[i%third.length]){
-                score[2]++;
-            }
-            
-        }
-        
-        // 테스트 확인
-        for(int n : score){
-            System.out.println(n);
-        }
-        
-        // 많이 맞힌 사람 찾기
-        int max = score[0];
-        List<Integer> answer = new ArrayList<Integer>();
-        
-        for(int i = 0; i<3; i++){
-            if(score[i] >= max & score[i] != 0){
-                max = score[i];
+            if(answers[i] == three[i%three.length]){
+                rightCount[2]++;
             }
         }
         
-        for(int i = 0; i<3; i++){
-            if(score[i] == max){
-                answer.add(i+1);
+        // rightCount 돌면서 많이 맞힌 사람 담기
+        ArrayList<Integer> answerList = new ArrayList<Integer>();
+        int max = 0;
+        for(int i = 0; i<rightCount.length; i++){
+            if(rightCount[i] >= max && rightCount[i] != 0){
+                if(rightCount[i] != max && !answerList.isEmpty()){
+                    answerList.remove(0);
+                }
+                answerList.add(i+1);
+                max = rightCount[i];
             }
         }
-        
-        Collections.sort(answer);
-        
-        // 결과 리턴
-        int[] answerArr = new int[answer.size()];
-    
-        if(answer.isEmpty()){
-            return answerArr;
-        }else{
-            for(int i = 0; i<answer.size(); i++){
-                answerArr[i] = answer.get(i);
-            }
+        int[] answer = new int[answerList.size()];
+        for(int i = 0; i<answer.length; i++){
+            answer[i] = answerList.get(i);
         }
-        return answerArr;
-        
-     
+        return answer;
     }
 }
