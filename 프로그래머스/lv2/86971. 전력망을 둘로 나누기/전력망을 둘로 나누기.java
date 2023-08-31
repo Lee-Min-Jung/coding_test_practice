@@ -1,84 +1,71 @@
 // 생각
-    // 트리 형태로 연결되어 있다, 그리고 예시 사진을 보니 dfs 혹은 bfs로 돌면서 확인하면 될 것 같다
-    // 시작점에서 연결되어 있는 다른 것들을 다 돌면서 count만 하면 된다 dfs, bfs 딱히 상관 없을 것 같다
-    // 저번에 재귀 계속 했으니 이번에는 큐로 구현할 수 있는 bfs를 해보자
+    // 일단 하나의 그래프를 만들고, 특정 연결 끊어서 그래프 2개로 만든 다음 bfs나 dfs돌면서 총 순회 개수 구해서 차이 구하기
 // 구현
-    // wires를 돌면서 연결리스트를 만든다
-    // wires를 돈다
-        // 해당 원소의 전선을 끊는다
-        // answer = Math.min(끊은 전선의 시작에서 bfs한 결과, 끊은 전선의 끝에서 bfs한 결과)
-        // 끊었던 전선을 다시 붙인다
-    // bfs
+    // for(wires) : 그래프 만들기
+    // for(wires) 
+        // 해당 원소 연결 끊고 각각으로부터 bfs 돌면서 개수 세기
+        // answer = Math.min(|첫번째 원소 결과 - 두번째 원소 결과|, answer);
+        // 연결 다시 복구
+    // bfs(int target)
         
+    
 import java.util.*;
 
 class Solution {
-    static int n;
-    
+    static List<Integer>[] adj;
+    static int N;
     public int solution(int n, int[][] wires) {
-        this.n = n;
+        // 변수
+        adj = new List[n+1];
         int answer = Integer.MAX_VALUE;
-        
-        // 연결리스트
-        List<Integer>[] arrList = new List[n+1];
-        
-        for(int i = 0; i<=n; i++){
-            arrList[i] = new ArrayList<Integer>();
+        N = n;
+        // 연결리스트 만들기
+        for(int i = 1; i<=n; i++){
+            adj[i] = new ArrayList<Integer>();
         }
         for(int i = 0; i<wires.length; i++){
             int start = wires[i][0];
             int end = wires[i][1];
-            arrList[start].add(end);
-            arrList[end].add(start);
+            adj[start].add(end);
+            adj[end].add(start);
         }
         
-        
-        // wires 돌기
+        // wire 끊어보기
         for(int i = 0; i<wires.length; i++){
-            // 해당 전선 끊기
             int start = wires[i][0];
             int end = wires[i][1];
-            arrList[start].remove(Integer.valueOf(end));
-            arrList[end].remove(Integer.valueOf(start));
-            // // bfs 돌기
-            int count1 = bfs(start, arrList);
-            int count2 = bfs(end, arrList);
-            answer = Math.min(answer, Math.abs(count1-count2));
-
-            // // 전선 붙이기
-            arrList[start].add(end);
-            arrList[end].add(start);
+            // 끊기
+            adj[start].remove(Integer.valueOf(end));
+            adj[end].remove(Integer.valueOf(start));
+            answer = Math.min(answer, Math.abs(bfs(start) - bfs(end)));
+            // 다시 연결
+            adj[start].add(end);
+            adj[end].add(start);
         }
-
-        return answer;
-       
+        
+       return answer;
+        
         
     }
     
-    public int bfs(int nodeIndex, List<Integer>[] arrList){
-        
-        boolean[] visited = new boolean[n+1];
+    public int bfs(int target){
+        boolean[] visited = new boolean[N+1];
+        Queue<Integer> q = new LinkedList<Integer>();
         int count = 0;
         
-        // 방문 표시
-        visited[nodeIndex] = true;
+        q.offer(target);
         
-        
-        // 큐
-        Queue<Integer> q = new LinkedList<Integer>();
-        q.offer(nodeIndex);
         while(!q.isEmpty()){
-            int cur = q.poll();
-            count += 1;
-            for(int n : arrList[cur]){
-                if(!visited[n]){
-                    q.offer(n);
-                    visited[n] = true;
-                } 
+            int val = q.poll();
+            visited[val] = true;
+            count++;
+            for(int num : adj[val]){
+                if(!visited[num]){
+                    q.offer(num);
+                }
             }
         }
         
         return count;
-        
     }
 }
