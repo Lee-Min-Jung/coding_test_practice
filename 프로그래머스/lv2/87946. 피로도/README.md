@@ -2,6 +2,12 @@
 
 [문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/87946) 
 
+### 회고
+<ul>
+<li>계속 공부했던 재귀 활용 dfs</li>
+<li>재귀 함수 for문 다 돌고 난 마지막에 정답을 최댓값으로 변경하면서 빠져나오도록 하는 것이 포인트</li>
+</ul>
+
 ### 성능 요약
 
 메모리: 76.4 MB, 시간: 0.06 ms
