@@ -2,6 +2,10 @@
 
 [문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/86971) 
 
+### 회고
+<ul>
+<li>bfs를 한 번만 돌고 마는 것이 아니라 여러 번 돌아야 하니 방문 배열을 재활용하지 않도록 주의해야 함</li>
+</ul>
 ### 성능 요약
 
 메모리: 78 MB, 시간: 3.74 ms
