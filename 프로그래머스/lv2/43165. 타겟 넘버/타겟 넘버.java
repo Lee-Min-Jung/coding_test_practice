@@ -1,35 +1,28 @@
 // 생각
-    // 재귀로 계속 하다가 종료조건 오면 종료해야할듯
+    // 재귀 dfs
 // 구현
-    // 재귀(int[] numbers, int index, int sum)
-        // if(index == numbers.length-1)
-            // if(sum == target) : count++
-            // 종료
-        // 재귀(numbers, index+1, sum+현재값)
-        // 재귀(numbers, index+1, sum-현재값)
+    // recur()
 
 class Solution {
-    static int targetCopy;
-    static int answer;
+    static boolean[] visited;
+    static int answer = 0;
+    
     public int solution(int[] numbers, int target) {
-        // 초기화
-        targetCopy = target;
-        answer = 0;
-        // 재귀에 넣기
-        recur(numbers, 0, 0);
+        visited = new boolean[numbers.length];
         
-        // 정답
+        recur(numbers, 0, 0, target);
+        
         return answer;
     }
     
-    public void recur(int[] numbers, int index, int sum){
+    public void recur(int[] numbers, int sum, int index, int target){
         if(index == numbers.length){
-            if(sum == targetCopy){
+            if(sum == target){
                 answer++;
             }
             return;
         }
-        recur(numbers, index+1, sum+numbers[index]);
-        recur(numbers, index+1, sum-numbers[index]);
+        recur(numbers, sum+numbers[index], index+1, target);
+        recur(numbers, sum-numbers[index], index+1, target);
     }
 }
