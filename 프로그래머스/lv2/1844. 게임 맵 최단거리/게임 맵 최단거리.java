@@ -1,66 +1,48 @@
 // 생각
-    // 시작점부터 각 점까지 걸리는 최단거리를 배열로 저장한 후 나중에 마지막점에 저장된 값을 확인
+    // 시작위치부터 해당 좌표까지의 최단 거리 담고 있는 거리 배열 생성
+    // 첫번째 좌표부터 bfs돌면서 거리 갱신
 // 구현
-    // 시작점부터 각 점까지의 최단거리를 저장할 배열 선언
-    // for(maps) : 각 점의 동서남북을 bfs 돌면서 거리배열 업뎃
-    // bfs(좌표)
-
+    // bfs
 import java.util.*;
 class Solution {
-    static int[][] distance;
+    static boolean[][] visited;
     public int solution(int[][] maps) {
         // 변수
-        distance = new int[maps.length][maps[0].length];
+        visited = new boolean[maps.length][maps[0].length];
+        int[][] distance = new int[maps.length][maps[0].length];
+        
+        
         // bfs
-        distance[0][0] = 1;
-        Position position = new Position(0,0);
-        int answer = bfs(position, maps);
-        
-
-        
-        return answer;
-        
+        return bfs(0, 0, maps, distance);
     }
-    
-    public int bfs(Position position, int[][] maps){
-        Queue<Position> q = new LinkedList<Position>();
-        int[] x_cord = {0, 0, -1, 1};
-        int[] y_cord = {1, -1, 0, 0};
-        boolean[][] visited = new boolean[maps.length][maps[0].length];
-
-        visited[position.x][position.y] = true;
-        q.offer(position);
+    public int bfs(int x, int y, int[][] maps, int[][] distance){
+        int[] cordX = {1,-1,0,0};
+        int[] cordY = {0,0,-1,1};
+        Queue<int[]> q = new LinkedList<int[]>();
+        visited[x][y] = true;
+        q.offer(new int[]{x, y});
         
         while(!q.isEmpty()){
-            Position pos = q.poll();
-            int curX = pos.x;
-            int curY = pos.y;
-            if (curX == maps.length - 1 && curY == maps[0].length - 1) {
-                return distance[curX][curY];
+            int[] cur = q.poll();
+            int curX = cur[0];
+            int curY = cur[1];
+            if(curX == maps.length-1 && curY == maps[0].length-1){
+                return distance[curX][curY]+1;
             }
             for(int i = 0; i<4; i++){
-                int nextX = curX+x_cord[i];
-                int nextY = curY+y_cord[i];
-                if(nextX >= 0 && nextY >= 0 && nextX < maps.length && nextY < maps[0].length){
-                    if(maps[nextX][nextY] == 1 && !visited[nextX][nextY]){
-                        Position nextPos = new Position(nextX, nextY);
-                        q.offer(nextPos);
-                        visited[nextX][nextY] = true;
+                int nextX = curX+cordX[i];
+                int nextY = curY+cordY[i];
+                if(nextX >= 0 && nextX < maps.length && nextY >= 0 && nextY < maps[0].length){
+                    if(maps[nextX][nextY] != 0 && !visited[nextX][nextY]){
                         distance[nextX][nextY] = distance[curX][curY] + 1;
+                        visited[nextX][nextY] = true;
+                        q.offer(new int[]{nextX, nextY});
                     }
                 }
             }
         }
-        return -1;
         
+        return -1;
     }
 }
 
-class Position{
-    int x;
-    int y;
-    Position(int x, int y){
-        this.x = x;
-        this.y = y;
-    }
-}
