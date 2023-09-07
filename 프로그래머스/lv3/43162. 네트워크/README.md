@@ -2,19 +2,9 @@
 
 [문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/43162) 
 
-### 회고
-<ul>
-<li>
-일반적인 bfs/dfs 문제.          
-</li>
-<li>
-그런데 연결 요소 셀 때 어떻게 해야 하는지 고민했는데 visited 배열 확인한 후 방문 안 되어 있으면 다시 bfs를 돌면서 개수 count하면 된다.        
-</li>
-</ul>
-
 ### 성능 요약
 
-메모리: 80.1 MB, 시간: 0.90 ms
+메모리: 74 MB, 시간: 0.72 ms
 
 ### 구분
 

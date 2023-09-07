@@ -1,34 +1,34 @@
 // 생각
-    // 그래프가 명확하니 bfs/dfs
+    // 인접리스트 만들어서 첫번째부터 bfs를 돌린 후 네트워크 개수 1 증가
+    // 만약 방문 안 한 컴퓨터 존재하면 그거부터 bfs 돌린 후 네트워크 개수 1 증가, 다 방문할 때까지 
 // 구현
-    // computers 정보 가지고 연결리스트 만들기
-    // bfs()
+    // 인접리스트
+    // bfs
+    // 네트워크 개수 구하기
 import java.util.*;
 class Solution {
-    static List<Integer>[] adj;
+    static List<Integer>[] adj; 
     static boolean[] visited;
     public int solution(int n, int[][] computers) {
-        // 연결리스트 만들기
+        // 변수
+        visited = new boolean[n];
+        
+        // 인접리스트
         adj = new List[n];
-        for(int i = 0; i<adj.length; i++){
+        for(int i = 0; i<n; i++){
             adj[i] = new ArrayList<Integer>();
         }
         for(int i = 0; i<computers.length; i++){
-            for(int j = 0; j<computers.length; j++){
+            for(int j = 0; j<computers[i].length; j++){
                 if(i!=j && computers[i][j] != 0){
                     adj[i].add(j);
                 }
             }
         }
-        // 방문 배열
-        visited = new boolean[n];
-        
-        // bfs 돌기
+        // 네트워크 개수 구하기
         bfs(0);
-        
-        // 한 번 돌고 난 이후 방문 안 된 거 돌면서 네트워크 구하기
         int answer = 1;
-        for(int i = 0; i<visited.length; i++){
+        for(int i = 0; i<n; i++){
             if(!visited[i]){
                 bfs(i);
                 answer++;
@@ -36,22 +36,21 @@ class Solution {
         }
         
         return answer;
-        
     }
     
-    public void bfs(int comNum){
+    public void bfs(int num){
         Queue<Integer> q = new LinkedList<Integer>();
-        q.add(comNum);
+        
+        q.offer(num);
         
         while(!q.isEmpty()){
-            int curr = q.poll();
-            visited[curr] = true;
-            for(int n : adj[curr]){
-                if(!visited[n]){
-                    q.add(n);
+            int cur = q.poll();
+            visited[cur] = true;
+            for(int next : adj[cur]){
+                if(!visited[next]){
+                    q.offer(next);
                 }
             }
         }
-        
     }
 }
