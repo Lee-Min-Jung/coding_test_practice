@@ -2,6 +2,12 @@
 
 [문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/43163) 
 
+### 회고
+<ul>
+<li>재귀 dfs같은 경우 return값 없는데 답에는 뭘 저장하고 싶을 때 마지막 조건일 때 답 저장하면서 빠져나온다. 마지막 조건에 걸리지 않으면 답이 변하지 않음을 기억해야 함</li>
+<li>visited[i] = true;의 위치가 왜 if(!visited[i]) 바로 뒤면 안 되는지 이해가 잘 가지 않음</li>
+</ul>
+
 ### 성능 요약
 
 메모리: 67.7 MB, 시간: 0.04 ms
