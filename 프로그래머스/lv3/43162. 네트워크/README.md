@@ -2,15 +2,9 @@
 
 [문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/43162) 
 
-### 회고
-<ul>
-<li>기본적인 bfs 구현하면 되는 문제</li>
-<li>다만 bfs돌고 난 후의 덩어리 개수 세는 걸 처리해줘야 했음. 이는 bfs1회 돌고 방문 안 한 거에서 bfs돌 때 마다 1씩 더해주면 됨</li>
-</ul>
-
 ### 성능 요약
 
-메모리: 74 MB, 시간: 0.72 ms
+메모리: 77.9 MB, 시간: 0.88 ms
 
 ### 구분
 
