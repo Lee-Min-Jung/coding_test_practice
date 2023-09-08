@@ -1,36 +1,34 @@
+// 생각
+    // tickets에서 가능한 모든 경로 살펴야 함 재귀 dfs
+// 구현
+    // 재귀
 import java.util.*;
-
 class Solution {
     static boolean[] visited;
-    static ArrayList<String> paths = new ArrayList<String>();
-    
+    static ArrayList<String> routeList;
     public String[] solution(String[][] tickets) {
         // 변수
         visited = new boolean[tickets.length];
-        
-        // dfs 실행
-        dfs(0, tickets, "ICN", "ICN");
-        
-        // paths 정렬해서 결과 여러개일 경우 알파벳 순 경로 선택
-        Collections.sort(paths);
-        
-        // 정답
-        return paths.get(0).split(" ");
-        
+        routeList = new ArrayList<String>();
+        // 재귀
+        recur(tickets, "ICN", "", 0);
+        // 하나의 경로 구하기
+        Collections.sort(routeList);
+        String[] answer = routeList.get(0).split(" ");
+        return answer;
     }
-    
-    public void dfs(int count, String[][] tickets, String now, String path){
+    public void recur(String[][] tickets, String city, String route, int count){
         if(count == tickets.length){
-            paths.add(path);
-            return;
+            routeList.add(route+city);
         }
         for(int i = 0; i<tickets.length; i++){
-            if(!visited[i] && now.equals(tickets[i][0])){
-                visited[i] = true;
-                dfs(count+1, tickets, tickets[i][1], path + " " + tickets[i][1]);
-                visited[i] = false;
+            if(!visited[i]){
+                if(city.equals(tickets[i][0])){
+                    visited[i] = true;
+                    recur(tickets, tickets[i][1], route+city+" ", count+1);
+                    visited[i] = false;
+                }
             }
         }
-        
     }
 }
