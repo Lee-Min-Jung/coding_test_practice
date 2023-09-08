@@ -2,6 +2,12 @@
 
 [문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/43164) 
 
+### 회고
+<ul>
+<li>재귀로 완전탐색하면 되는 문제</li>
+<li>티켓 다 사용했을 때의 경로만 구하는 거니 이거러 종료조건으로</li>
+</ul>
+
 ### 성능 요약
 
 메모리: 82.1 MB, 시간: 8.89 ms
