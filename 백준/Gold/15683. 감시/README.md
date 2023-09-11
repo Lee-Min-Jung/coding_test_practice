@@ -2,20 +2,9 @@
 
 [문제 링크](https://www.acmicpc.net/problem/15683) 
 
-
-
-### 회고
-<ul>
-<li>문제 이해 하는데 시간이 꽤 걸림</li>
-<li>cctv위치 구해서 해당 위치 돌면서 재귀하면 되겠다는 생각은 들었는데 그 이후에 뭘 해야 할지, 디테일한 부분은 생각 못 함</li>
-</ul>
-
-### 참고
-[참고한 풀이](https://minhamina.tistory.com/134) 
-[순열 개념](https://minhamina.tistory.com/37) 
 ### 성능 요약
 
-메모리: 325916 KB, 시간: 2716 ms
+메모리: 312772 KB, 시간: 1068 ms
 
 ### 분류
 
