@@ -2,6 +2,16 @@
 
 [문제 링크](https://www.acmicpc.net/problem/9663) 
 
+### 회고
+<ul>
+<li>2차원인데 1차원배열을 이용해 행열 나타내서 문제를 풀어서 처음엔 이해가 안 갔음</li>
+</ul>
+
+### 참고
+
+[참고](https://infodon.tistory.com/61) 
+
+
 ### 성능 요약
 
 메모리: 17756 KB, 시간: 5564 ms
