@@ -1,6 +1,12 @@
+# 입양 갔는데 보호소에 들어온 기록 없는 동물 찾기
+# id, 이름 // id 오름차순
 SELECT O.ANIMAL_ID, O.NAME
 FROM ANIMAL_OUTS O
+
 LEFT JOIN ANIMAL_INS I
 ON O.ANIMAL_ID = I.ANIMAL_ID
+
 WHERE I.ANIMAL_ID IS NULL
+
 ORDER BY O.ANIMAL_ID
+
