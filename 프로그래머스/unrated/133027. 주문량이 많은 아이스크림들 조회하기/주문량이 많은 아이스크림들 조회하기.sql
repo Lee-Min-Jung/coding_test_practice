@@ -1,14 +1,15 @@
-select h.flavor
-from first_half h
-inner join july j
-on h.flavor = j.flavor
-group by h.flavor
-order by sum(h.total_order+j.total_order) desc
-limit 3
+#7월 아이스크림 총 주문량+상반기 아이스크림 총 주문량이 큰 순서대로 3개 맛 조회
+SELECT H.FLAVOR
+FROM FIRST_HALF H
 
-# SELECT FLAVOR
-# FROM FIRST_HALF A
-# JOIN JULY B USING (FLAVOR)
-# GROUP BY FLAVOR
-# ORDER BY SUM(A.TOTAL_ORDER + B.TOTAL_ORDER) DESC
-# LIMIT 3;
+LEFT JOIN
+
+(SELECT J.SHIPMENT_ID, J.FLAVOR, SUM(TOTAL_ORDER) AS TOTAL
+FROM JULY J
+GROUP BY J.FLAVOR) JJ
+
+ON H.FLAVOR = JJ.FLAVOR
+
+ORDER BY (H.TOTAL_ORDER + TOTAL) DESC
+LIMIT 3
+
