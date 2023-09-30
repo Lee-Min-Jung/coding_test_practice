@@ -1,16 +1,26 @@
 # 자동차 종류가 트럭인 자동차의 대여 기록에 대해서 대여 기록 별로 대여 금액 구하기
 # 대여 기록 id, 대여 금액 출력 / 대여 금액 내림차순, 대여 기록 id 내림차순
 
-SELECT DISTINCT H.HISTORY_ID, ROUND(C.DAILY_FEE * (DATEDIFF(H.END_DATE, H.START_DATE)+1) * 
-    CASE
+SELECT DISTINCT H.HISTORY_ID, FLOOR((DATEDIFF(H.END_DATE, H.START_DATE)+1) * C.DAILY_FEE * (0.01 * (100 -
+     CASE
         WHEN DATEDIFF(H.END_DATE, H.START_DATE) >= 90
-        THEN 0.85
+        THEN 
+            (SELECT DISCOUNT_RATE
+            FROM CAR_RENTAL_COMPANY_DISCOUNT_PLAN
+            WHERE CAR_TYPE = '트럭' AND DURATION_TYPE = '90일 이상')
         WHEN DATEDIFF(H.END_DATE, H.START_DATE) >= 30
-        THEN 0.92
+        THEN 
+            (SELECT DISCOUNT_RATE
+            FROM CAR_RENTAL_COMPANY_DISCOUNT_PLAN PLAN
+            WHERE CAR_TYPE = '트럭' AND DURATION_TYPE = '30일 이상')
         WHEN DATEDIFF(H.END_DATE, H.START_DATE) >= 7
-        THEN 0.95
-        ELSE 1
-    END, 0) AS FEE
+        THEN 
+            (SELECT DISCOUNT_RATE
+            FROM CAR_RENTAL_COMPANY_DISCOUNT_PLAN
+            WHERE CAR_TYPE = '트럭' AND DURATION_TYPE = '7일 이상')
+        ELSE 0
+    END))) AS FEE
+    
 FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY H
 
 LEFT JOIN CAR_RENTAL_COMPANY_CAR C
