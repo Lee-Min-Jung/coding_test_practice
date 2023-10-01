@@ -1,0 +1,12 @@
+# 대여 시작일이 2022년 9월에 속하는 대여 기록에 대해 30일 이상이면 장기 대여, 아니면 단기 대여로 표시 추가해서
+# 대여 기록 id 내림차순
+
+SELECT H.HISTORY_ID, H.CAR_ID, DATE_FORMAT(H.START_DATE, '%Y-%m-%d') AS START_DATE, DATE_FORMAT(H.END_DATE, '%Y-%m-%d') AS END_DATE, 
+    CASE 
+        WHEN DATEDIFF(H.END_DATE, H.START_DATE)+1 >= '30'
+        THEN '장기 대여'
+        ELSE '단기 대여'
+    END AS RENT_TYPE
+FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY H
+WHERE MONTH(H.START_DATE) = '9' AND YEAR(H.START_DATE) = '2022'
+ORDER BY H.HISTORY_ID DESC
