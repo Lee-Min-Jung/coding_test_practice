@@ -1,0 +1,8 @@
+SELECT I.ANIMAL_ID, I.NAME, 
+    CASE 
+        WHEN I.SEX_UPON_INTAKE LIKE '%Neutered%' OR I.SEX_UPON_INTAKE LIKE '%Spayed%'
+        THEN 'O'
+        ELSE 'X'
+    END AS '중성화'
+FROM ANIMAL_INS I
+ORDER BY I.ANIMAL_ID
