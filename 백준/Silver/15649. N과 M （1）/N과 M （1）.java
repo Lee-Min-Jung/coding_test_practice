@@ -1,33 +1,27 @@
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.StringTokenizer;
-
-
-
-
-
-
 
 public class Main {
     static int N, M;
-    static int[] output;
     static boolean[] visited;
+    static int[] output;
     public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        N = sc.nextInt();
-        M = sc.nextInt();
-        output = new int[M];
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
         visited = new boolean[N];
+        output = new int[M];
 
-        backTracking(0);
+        bt(0);
 
     }
-
-    public static void backTracking(int depth){
+    public static void bt(int depth){
         if(depth == M){
-            for(int i = 0; i<output.length; i++){
+            for(int i = 0; i<M; i++){
                 System.out.print(output[i] + " ");
             }
             System.out.println();
@@ -37,19 +31,11 @@ public class Main {
             if(!visited[i]){
                 visited[i] = true;
                 output[depth] = i+1;
-                backTracking(depth+1);
+                bt(depth+1);
                 visited[i] = false;
             }
         }
+
     }
 
-
-
-
-
-
 }
-
-
-
-
