@@ -1,27 +1,28 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     static int N, M;
     static int[][] map;
     static boolean[][] visited;
+    static int[] dx = {1, -1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static int area = 0;
     static int count = 0;
-    static int max = 0;
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
+        // 입력 받고 초기화
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         map = new int[N][M];
         visited = new boolean[N][M];
 
-        // map 만들기
+        // 그림 상태 입력
         for(int i = 0; i<N; i++){
             st = new StringTokenizer(br.readLine());
             for(int j = 0; j<M; j++){
@@ -29,53 +30,44 @@ public class Main {
             }
         }
 
-        // bfs 실행
+        // bfs 진행
         for(int i = 0; i<N; i++){
             for(int j = 0; j<M; j++){
-                if(map[i][j] != 0 && !visited[i][j]){
+                if(map[i][j] == 1){
+                    count++;
                     bfs(i, j);
                 }
             }
         }
 
         System.out.println(count);
-        System.out.println(max);
-
+        System.out.println(area);
 
     }
-
-    public static void bfs(int x, int y){
-        Queue<int[]> q = new LinkedList<int[]>();
-        int[] dx = {1, -1, 0, 0};
-        int[] dy = {0, 0, -1, 1};
-        int temp = 1;
-
-        q.offer(new int[]{x, y});
+    static void bfs(int x, int y){
+        Queue<int[]> q = new LinkedList<>();
         visited[x][y] = true;
-
+        q.add(new int[]{x,y});
+        int areaCount = 1;
         while(!q.isEmpty()){
             int[] cur = q.poll();
-            int curX = cur[0];
-            int curY = cur[1];
-            for(int i = 0; i<4; i++){
-                int nextX = curX + dx[i];
-                int nextY = curY + dy[i];
-                if(nextX < 0 || nextY < 0 || nextX >= N || nextY >= M) continue;
-                if(!visited[nextX][nextY] && map[nextX][nextY] == 1){
-                    q.offer(new int[]{nextX, nextY});
-                    visited[nextX][nextY] = true;
-                    temp++;
-                }
+            int cx = cur[0];
+            int cy = cur[1];
+            for(int dir = 0; dir<4; dir++){
+                int nx = cx + dx[dir];
+                int ny = cy + dy[dir];
+                if(nx < 0 || nx >= N || ny < 0 || ny >= M) continue;
+                if(visited[nx][ny] || map[nx][ny] == 0) continue;
+                visited[nx][ny] = true;
+                q.add(new int[]{nx, ny});
+                areaCount++;
+                map[nx][ny] = -1;
             }
         }
-        max = Math.max(max, temp);
-        count++;
-
+        area = Math.max(areaCount, area);
     }
-
-
-
 
 
 
 }
+
