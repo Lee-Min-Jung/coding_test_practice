@@ -1,24 +1,29 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 import java.util.*;
-import java.io.*;
 
 public class Main {
     static int N, M;
     static int[] output;
 
-    public static void main(String[] args) throws IOException{
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        N = sc.nextInt();
-        M = sc.nextInt();
-
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
         output = new int[M];
 
         bt(0, 0);
-    }
 
-    public static void bt(int depth, int position){
+
+
+    }
+    static void bt(int depth, int position){
         if(depth == M){
-            for(int i = 0; i<output.length; i++){
+            for(int i = 0; i<M; i++){
                 System.out.print(output[i] + " ");
             }
             System.out.println();
@@ -29,6 +34,10 @@ public class Main {
             output[depth] = i+1;
             bt(depth+1, i+1);
         }
-
     }
+
+
+
+
 }
+
