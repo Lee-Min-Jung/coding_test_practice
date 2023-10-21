@@ -1,38 +1,42 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 import java.util.*;
-import java.io.*;
 
 public class Main {
     static int N, M;
     static int[] output;
-    static boolean[] visited;
-    public static void main(String[] args) throws IOException{
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(bufferedReader.readLine());
+    static StringBuilder sb = new StringBuilder();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-
         output = new int[M];
-        visited = new boolean[N];
 
         bt(0, 0);
-
+        System.out.println(sb);
 
     }
-
-    public static void bt(int depth, int position){
+    static void bt(int depth, int position){
         if(depth == M){
-            for(int i = 0; i<output.length; i++){
-                System.out.print(output[i] + " ");
+            for(int i = 0; i<M; i++){
+                sb.append(output[i]);
+                sb.append(" ");
             }
-            System.out.println();
+            sb.append("\n");
             return;
         }
         for(int i = position; i<N; i++){
             output[depth] = i+1;
             bt(depth+1, i);
         }
-
-
     }
+
+
+
+
 }
+
