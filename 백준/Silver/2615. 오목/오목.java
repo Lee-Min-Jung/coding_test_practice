@@ -1,70 +1,69 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.*;
 
-public class Main{
-    public static void main(String[] args) throws Exception{
+public class Main {
+    static int[][] map = new int[20][20];
+    static int[][] dir = {{-1, -1}, {0, -1}, {1, -1}, {1, 0}};
+
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        char[][] board = new char[19][19];
-        int [][] d = {{0,1}, {1,0}, {1,1}, {-1,1}};
+        StringTokenizer st;
 
-        //		board 입력받기
-        for (int i = 0; i < 19; i++) {
-            String input = br.readLine();
-            for (int j = 0, index = 0; j < 19; index += 2, j++) {
-                board[i][j] = input.charAt(index);
+        // 판 입력 받기
+        for(int i = 1; i<=19; i++){
+            st = new StringTokenizer(br.readLine());
+            for(int j = 1; j<=19; j++){
+                map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-
-        // 모든 칸에 대해 오목 완성 찾기		
-        for (int j = 0; j < 19; j++) {
-            for (int i = 0; i < 19; i++) {
-                if (board[i][j] == '1' || board[i][j] == '2') {
-                    for (int k = 0; k < 4; k++) {
-                        int ax = i; // x좌표
-                        int ay = j; // y좌표
-                        int cnt = 1; // 일치하는 바둑알의 개수
-
-                        // 증가하는 방향 탐색
-                        while (true) {
-                            ax += d[k][0];
-                            ay += d[k][1];
-                            if ( 0 <= ax && ax < 19 && 0 <= ay && ay < 19) {
-                                if(board[i][j] == board[ax][ay])cnt ++;
-                                else {
-                                    break;
-                                }
-                            } else break;
+        // 판 돌기
+        for(int j = 1; j<=19; j++){
+            for(int i = 1; i<=19; i++){
+                int target = map[i][j];
+                if(target == 1 || target == 2){
+                    for(int d = 0; d<4; d++){
+                        int count = 1;
+                        // 원래 방향 탐색
+                        int cx = i;
+                        int cy = j;
+                        while(true){
+                            cx += dir[d][0];
+                            cy += dir[d][1];
+                            if(cx <= 0 || cx >= 20 || cy <= 0 || cy >= 20) break;
+                            if(map[cx][cy] != target) break;
+                            count++;
                         }
-                        ax = i;
-                        ay = j;
+                        // 반대 방향 탐색
+                        cx = i;
+                        cy = j;
 
-                        // 증가하는 방향의 반대방향 탐색
-                        while( true) {
-                            ax -= d[k][0];
-                            ay -= d[k][1];
-                            if ( 0 <= ax && ax < 19 && 0 <= ay && ay < 19) {
-                                if(board[i][j] == board[ax][ay])cnt ++;
-                                else break;
-
-                            } else break;
+                        while(true){
+                            cx -= dir[d][0];
+                            cy -= dir[d][1];
+                            if(cx <= 0 || cx >= 20 || cy <= 0 || cy >= 20) break;
+                            if(map[cx][cy] != target) break;
+                            count++;
                         }
-
-                        // 같은 오목눈이 5개라면
-                        if (cnt == 5) {
-                            System.out.println(board[i][j]);
-                            System.out.println((i+1) + " " + (j+1));
+                        if(count == 5){
+                            System.out.println(target);
+                            System.out.print(i + " ");
+                            System.out.print(j);
                             return;
                         }
-
                     }
+
                 }
             }
         }
 
-//		아무도 이기지 않았을 경우
         System.out.println(0);
 
 
+
     }
+
 }
